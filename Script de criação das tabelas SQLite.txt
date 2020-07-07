@@ -1,0 +1,64 @@
+CREATE TABLE Assunto
+(
+	CodAs INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Descricao NVARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Autor
+(
+	CodAu INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Nome NVARCHAR(40) NOT NULL 
+);
+
+CREATE TABLE Livro
+(
+	CodL INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Titulo NVARCHAR(40) NOT NULL,
+	Editora NVARCHAR(40) NOT NULL,
+	Edicao INT NOT NULL,
+	AnoPublicacao NUMERIC(4) NOT NULL
+);
+
+
+CREATE TABLE Livro_Assunto 
+(
+    Livro_Codl    INT NOT NULL,
+    Assunto_CodAs INT NOT NULL,
+    CONSTRAINT FK_Livro_Assunto_Livro FOREIGN KEY (Livro_Codl) REFERENCES Livro (CodL),
+    CONSTRAINT FK_Livro_Assunto_Assunto FOREIGN KEY (Assunto_CodAs) REFERENCES Assunto (CodAs)
+);
+
+CREATE INDEX Livro_Assunto_FKIndex1
+    ON Livro_Assunto(Livro_Codl ASC);
+
+
+CREATE INDEX Livro_Assunto_FKIndex2
+    ON Livro_Assunto(Assunto_CodAs ASC);
+
+
+CREATE TABLE Livro_Autor
+(
+	Livro_Codl INT NOT NULL,
+	Autor_CodAu INT NOT NULL,
+
+	CONSTRAINT FK_Livro_Autor_Livro FOREIGN KEY (Livro_Codl) REFERENCES Livro (CodL),
+    CONSTRAINT FK_Livro_Autor_Autor FOREIGN KEY (Autor_CodAu) REFERENCES Autor (CodAu)
+);
+
+CREATE INDEX Livro_Autor_FKIndex1
+    ON Livro_Autor(Livro_Codl ASC);
+
+CREATE INDEX Livro_Autor_FKIndex2
+    ON Livro_Autor(Autor_CodAu ASC);
+
+ALTER TABLE Livro ADD Preco NUMERIC(18,2) NOT NULL;
+
+
+create view Vw_Livros_Por_Autor(Autor, Titulo, Assunto) as
+Select au.Nome Autor,li.Titulo, ass.Descricao Assunto
+from Livro li, Livro_Autor liau, Autor au, Livro_Assunto lias, Assunto ass
+Where li.CodL = liau.Livro_Codl
+And liau.Autor_CodAu = au.CodAu
+And li.CodL = lias.Livro_Codl
+And lias.Assunto_codAs = ass.CodAs
+Group by au.Nome , li.Titulo, ass.Descricao;
