@@ -2,7 +2,7 @@
 Banco de dados SqLite:
 //CadastroLivro_Web/Livro-WebAPI/CadastraLivros.db
 
-Script em anexo: //CadastroLivro_Web/
+Script em anexo: //CadastroLivro_Web/Script de criação das tabelas SQLite.txt
 
 CSS
 
