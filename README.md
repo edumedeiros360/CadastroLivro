@@ -1,6 +1,8 @@
 # Cadastro de Livros
-Banco de dados SqLite
+Banco de dados SqLite:
 //CadastroLivro_Web/Livro-WebAPI/CadastraLivros.db
+
+Script em anexo: //CadastroLivro_Web/
 
 CSS
 
